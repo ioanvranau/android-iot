@@ -32,7 +32,9 @@ IBM Corp.
         android:layout_width="0dip"
         android:ems="10"
         android:hint="@string/topicHint"
-        android:inputType="text" >
+        android:inputType="text"
+        android:text="iotandroid"
+        android:singleLine="false">
 
         <requestFocus />
     </EditText>
@@ -72,7 +74,8 @@ IBM Corp.
             android:id="@+id/qos1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/qos1" />
+            android:text="@string/qos1"
+            android:checked="true" />
 
         <RadioButton
             android:id="@+id/qos2"

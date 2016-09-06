@@ -34,7 +34,8 @@ IBM Corp.
             android:layout_weight="0.22"
             android:hint="@string/unameHint"
             android:inputType="text"
-             >
+            android:singleLine="true"
+            android:text="uigwlndd">
         </EditText>
     </LinearLayout>
 
@@ -59,7 +60,8 @@ IBM Corp.
             android:ems="10"
             android:layout_weight="0.22"
             android:hint="@string/passwordHint"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:text="Z5aN2Y-FjLPv" />
     </LinearLayout>
 
     <LinearLayout

@@ -34,7 +34,8 @@ IBM Corp.
         android:layout_width="0dip"
         android:ems="10"
         android:inputType="text"
-        android:hint="@string/topicHint" />
+        android:hint="@string/topicHint"
+        android:text="iotandroid" />
 </LinearLayout>
 
 
@@ -61,7 +62,8 @@ IBM Corp.
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:hint="@string/messageHint" />
+        android:hint="@string/messageHint"
+            android:text="ionut message" />
     
     </LinearLayout>
     
@@ -93,7 +95,7 @@ IBM Corp.
             android:id="@+id/qos0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/qos0"
              />
 
@@ -101,7 +103,8 @@ IBM Corp.
             android:id="@+id/qos1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/qos1" />
+            android:text="@string/qos1"
+            android:checked="true" />
 
         <RadioButton
             android:id="@+id/qos2"

@@ -13,7 +13,8 @@ IBM Corp.
 
     <item android:id="@+id/connectAction"
 			android:showAsAction="always"
-         android:title="@string/connect" />
+         android:title="@string/connect"
+        />
         <item
         android:id="@+id/advanced"
          android:title="@string/advanced"
