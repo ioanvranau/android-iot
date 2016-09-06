@@ -1,5 +1,6 @@
 package iotplatform.androidapp;
 
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
@@ -25,6 +27,7 @@ public class IotPlatformMainActivity extends AppCompatActivity {
     private Camera camera;
 
     private boolean isLighOn = false;
+    private MqttClient mqttClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +43,15 @@ public class IotPlatformMainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MqttClient mqttClient = null;
                 try {
                     mqttClient = getMqttClientConnection(CLIENT_ID);
+                    MqttConnectOptions connOpts = new MqttConnectOptions();
+                    connOpts.setCleanSession(true);
+                    connOpts.setUserName(USER_NAME);
+                    connOpts.setPassword(PASSWORD.toCharArray());
+                    if(mqttClient != null && !mqttClient.isConnected()) {
+                        mqttClient.connect(connOpts);
+                    }
                     initCallBack(mqttClient);
                 } catch (MqttException e) {
                     e.printStackTrace();
@@ -77,23 +86,18 @@ public class IotPlatformMainActivity extends AppCompatActivity {
 
                 String message = "No message received!";
 
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
-    }
 
-    private void publishMessage(MqttClient mqttClient, String message) {
-        MqttMessage mqttMessage = new MqttMessage(message.getBytes());
-        mqttMessage.setQos(QOS);
-        System.out.println("Publish message: " + mqttMessage);
-        try {
-            if (mqttClient != null) {
-                mqttClient.publish(TOPIC, mqttMessage);
+        Button acc = (Button)findViewById(R.id.accSensor);
+        acc.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(IotPlatformMainActivity.this, AndroidAccelerometerExample.class);
+                startActivity(intent);
             }
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     public void initCallBack(MqttClient mqttClient) {
@@ -146,6 +150,13 @@ public class IotPlatformMainActivity extends AppCompatActivity {
 
         if (camera != null) {
             camera.release();
+        }
+        if(mqttClient != null && mqttClient.isConnected()) {
+            try {
+                mqttClient.disconnect();
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

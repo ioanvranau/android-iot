@@ -71,13 +71,21 @@ public class MqttConnection {
         if (mqttClient == null) {
             MemoryPersistence persistence = new MemoryPersistence();
             mqttClient = new MqttClient(BROKER, clientId, persistence);
-            MqttConnectOptions connOpts = new MqttConnectOptions();
-            connOpts.setCleanSession(true);
-            connOpts.setUserName(USER_NAME);
-            connOpts.setPassword(PASSWORD.toCharArray());
-            mqttClient.connect(connOpts);
         }
         return mqttClient;
+    }
+
+    public static void publishMessage(MqttClient mqttClient, String message) {
+        MqttMessage mqttMessage = new MqttMessage(message.getBytes());
+        mqttMessage.setQos(QOS);
+        System.out.println("Publish message: " + mqttMessage);
+        try {
+            if (mqttClient != null) {
+                mqttClient.publish(TOPIC, mqttMessage);
+            }
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 
 }

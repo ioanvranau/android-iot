@@ -12,8 +12,4 @@
     tools:context="iotplatform.androidapp.IotPlatformMainActivity"
     tools:showIn="@layout/activity_iot_platform_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
 </RelativeLayout>
