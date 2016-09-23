@@ -26,7 +26,7 @@
         android:layout_height="match_parent" />
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/initConnection"
+        android:id="@+id/tourchSwitch"
         android:text="Torch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:text="Acc Sensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/btn_default"
         android:nestedScrollingEnabled="false" />

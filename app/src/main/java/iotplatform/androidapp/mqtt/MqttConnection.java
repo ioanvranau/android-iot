@@ -78,10 +78,10 @@ public class MqttConnection {
     public static void publishMessage(MqttClient mqttClient, String message) {
         MqttMessage mqttMessage = new MqttMessage(message.getBytes());
         mqttMessage.setQos(QOS);
-        System.out.println("Publish message: " + mqttMessage);
         try {
             if (mqttClient != null) {
                 mqttClient.publish(TOPIC, mqttMessage);
+                System.out.println("Publish message: " + mqttMessage);
             }
         } catch (MqttException e) {
             e.printStackTrace();
