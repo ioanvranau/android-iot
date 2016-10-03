@@ -21,10 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_iot_platform_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/tourchSwitch"
         android:text="Torch"
@@ -43,5 +39,17 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/btn_default"
         android:nestedScrollingEnabled="false" />
+
+    <include layout="@layout/content_iot_platform_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:text=""
+        android:layout_width="112dp"
+        android:layout_height="45dp"
+        android:id="@+id/infoText"
+        android:layout_gravity="bottom|center"
+        android:textAlignment="center" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -56,20 +57,24 @@ public class IotPlatformMainActivity extends AppCompatActivity {
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
+                TextView infoText = (TextView) findViewById(R.id.infoText);
 
+                String message;
                 if (isLighOn) {
-                    String message = "Torch is off!";
-                    Log.i("info", message + "!");
-                    publishMessage(mqttClient, message);
-                    cameraSwitch(isLighOn);
+                    message = "Torch is off!";
                     isLighOn = false;
                 } else {
-
-                    Log.i("info", "torch is turn on!");
-                    String message = "Torch is on!";
-                    publishMessage(mqttClient, message);
-                    cameraSwitch(isLighOn);
+                    message = "Torch is on!";
                     isLighOn = true;
+                }
+                boolean cameraSwitched = cameraSwitch(!isLighOn);
+                Log.i("info", message + "!");
+                publishMessage(mqttClient, message);
+                if (cameraSwitched) {
+                    infoText.setText(message);
+                } else {
+                    String text = "Cammera could not be switched!";
+                    infoText.setText(text);
                 }
             }
         });
@@ -97,9 +102,12 @@ public class IotPlatformMainActivity extends AppCompatActivity {
         initCallBack(mqttClient);
     }
 
-    private void cameraSwitch(boolean isLighOn) {
+    private boolean cameraSwitch(boolean isLighOn) {
         if (camera == null) {
             camera = Camera.open();
+        }
+        if (camera == null) {
+            return false;
         }
         final Camera.Parameters p = camera.getParameters();
         if (isLighOn) {
@@ -111,6 +119,8 @@ public class IotPlatformMainActivity extends AppCompatActivity {
             camera.setParameters(p);
             camera.startPreview();
         }
+
+        return true;
     }
 
     public void initCallBack(MqttClient mqttClient) {
