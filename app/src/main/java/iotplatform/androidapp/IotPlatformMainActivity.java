@@ -19,24 +19,29 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONObject;
 
 import iotplatform.androidapp.utils.IoTUtils;
+import iotplatform.androidapp.utils.SensorType;
 
 import static iotplatform.androidapp.mqtt.MqttConnection.CLIENT_ID;
 import static iotplatform.androidapp.mqtt.MqttConnection.PASSWORD;
 import static iotplatform.androidapp.mqtt.MqttConnection.USER_NAME;
 import static iotplatform.androidapp.mqtt.MqttConnection.getMqttClientConnection;
 import static iotplatform.androidapp.mqtt.MqttConnection.publishMessage;
+import static iotplatform.androidapp.utils.IoTUtils.DEVICE_ID_KEY;
+import static iotplatform.androidapp.utils.SensorType.TORCH;
 
 public class IotPlatformMainActivity extends AppCompatActivity {
 
     private static final String KEEP_TOURCH_ON_ON_CLOSE_CHECKBOX_STATE = "keepTourchOnOnCloseCheckBox";
-    public static final String DEVICE_ID_KEY = "deviceId";
     public static final String DEFAULT_ID_MESSAGE = "Please enter your ID. You can get it from your IotPlatform provider.";
     private Camera camera;
 
     private boolean isLighOn = false;
     private MqttClient mqttClient;
+    private IotPlatformMainActivity iotPlatformMainActivity = IotPlatformMainActivity.this;
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +56,8 @@ public class IotPlatformMainActivity extends AppCompatActivity {
 
 
         final EditText deviceIdText = (EditText) findViewById(R.id.deviceId);
-        String storedDeviceId = IoTUtils.readPrefference(DEVICE_ID_KEY, DEFAULT_ID_MESSAGE, this);
-        if(storedDeviceId == null || storedDeviceId.length() == 0 ){
+        String storedDeviceId = IoTUtils.readPreference(DEVICE_ID_KEY, DEFAULT_ID_MESSAGE, this);
+        if (storedDeviceId == null || storedDeviceId.length() == 0) {
             storedDeviceId = DEFAULT_ID_MESSAGE;
         }
         deviceIdText.setText(storedDeviceId);
@@ -63,7 +68,7 @@ public class IotPlatformMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String deviceIdString = String.valueOf(deviceIdText.getText());
-                if(deviceIdString == null || deviceIdString.equalsIgnoreCase(DEFAULT_ID_MESSAGE) || deviceIdString.isEmpty()) {
+                if (deviceIdString == null || deviceIdString.equalsIgnoreCase(DEFAULT_ID_MESSAGE) || deviceIdString.isEmpty()) {
                     IoTUtils.showInfoMessage("Please enter the ID provided by your IoT Platform provider!", getApplicationContext());
                 } else {
                     IoTUtils.writePrefference(deviceIdString, DEVICE_ID_KEY, IotPlatformMainActivity.this, getApplicationContext());
@@ -106,7 +111,7 @@ public class IotPlatformMainActivity extends AppCompatActivity {
                 }
                 boolean cameraSwitched = cameraSwitch(!isLighOn);
                 Log.i("info", message + "!");
-                publishMessage(mqttClient, message);
+                publishMessage(mqttClient, message, TORCH, iotPlatformMainActivity);
                 if (cameraSwitched) {
                     infoText.setText(message);
                 } else {
@@ -218,7 +223,7 @@ public class IotPlatformMainActivity extends AppCompatActivity {
                 isLighOn = false;
                 String message = "Torch is off!";
                 Log.i("info", message + "!");
-                publishMessage(mqttClient, message);
+                publishMessage(mqttClient, message, TORCH, iotPlatformMainActivity);
             }
         }
         if (mqttClient != null && mqttClient.isConnected()) {

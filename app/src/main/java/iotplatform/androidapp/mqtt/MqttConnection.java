@@ -1,10 +1,16 @@
 package iotplatform.androidapp.mqtt;
 
+import android.app.Activity;
+
 import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import iotplatform.androidapp.utils.IoTUtils;
+import iotplatform.androidapp.utils.SensorType;
 
 /**
  * Created by ioan.vranau on 9/3/2016.
@@ -75,8 +81,20 @@ public class MqttConnection {
         return mqttClient;
     }
 
-    public static void publishMessage(MqttClient mqttClient, String message) {
-        MqttMessage mqttMessage = new MqttMessage(message.getBytes());
+    public static void publishMessage(MqttClient mqttClient, String message, SensorType type, Activity activity) {
+
+        String deviceId = IoTUtils.readPreference(IoTUtils.DEVICE_ID_KEY, "", activity);
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("message", message);
+            jsonObject.put("deviceId", deviceId);
+            jsonObject.put("type", type.getValue());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        MqttMessage mqttMessage = new MqttMessage(jsonObject.toString().getBytes());
         mqttMessage.setQos(QOS);
         try {
             if (mqttClient != null) {

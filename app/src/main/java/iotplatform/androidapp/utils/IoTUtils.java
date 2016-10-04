@@ -5,11 +5,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import iotplatform.androidapp.IotPlatformMainActivity;
+
 /**
  * Created by ioan.vranau on 10/4/2016.
  */
 
 public class IoTUtils {
+
+    public static final String DEVICE_ID_KEY = "deviceId";
+
     public static void showInfoMessage(String messsage, Context context) {
         int duration = Toast.LENGTH_SHORT;
 
@@ -25,7 +30,7 @@ public class IoTUtils {
         IoTUtils.showInfoMessage("Device ID saved successfully!", applicationContext);
     }
 
-    public static String readPrefference(String key, String defaultValue, Activity activity) {
+    public static String readPreference(String key, String defaultValue, Activity activity) {
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
         return sharedPref.getString(key, defaultValue);
     }

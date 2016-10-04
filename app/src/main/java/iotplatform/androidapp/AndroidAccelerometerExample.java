@@ -15,12 +15,14 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import iotplatform.androidapp.mqtt.MqttConnection;
+import iotplatform.androidapp.utils.SensorType;
 
 import static iotplatform.androidapp.mqtt.MqttConnection.CLIENT_ID;
 import static iotplatform.androidapp.mqtt.MqttConnection.PASSWORD;
 import static iotplatform.androidapp.mqtt.MqttConnection.USER_NAME;
 import static iotplatform.androidapp.mqtt.MqttConnection.getMqttClientConnection;
 import static iotplatform.androidapp.mqtt.MqttConnection.publishMessage;
+import static iotplatform.androidapp.utils.SensorType.ACC;
 
 public class AndroidAccelerometerExample extends Activity implements SensorEventListener {
 
@@ -126,7 +128,7 @@ public class AndroidAccelerometerExample extends Activity implements SensorEvent
                 if (mqttClient != null && !mqttClient.isConnected()) {
                     mqttClient.connect(connOpts);
                 }
-                publishMessage(mqttClient,"Acc Delta X Axis " + Float.toString(deltaX));
+                publishMessage(mqttClient,"Acc Delta X Axis " + Float.toString(deltaX), ACC, AndroidAccelerometerExample.this);
             } catch (MqttException e) {
                 e.printStackTrace();
             }
