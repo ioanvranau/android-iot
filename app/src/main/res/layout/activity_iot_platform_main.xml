@@ -55,21 +55,37 @@
         android:layout_height="130dp"
         android:id="@+id/deviceIdLayout"
         android:layout_gravity="top|center"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="80dp"
+        android:weightSum="1">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/deviceId"
-            android:layout_weight="1"
-            android:layout_gravity="top" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="135dp"
+            android:layout_height="152dp">
+
+            <TextView
+                android:text="Device Id"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:id="@+id/deviceIdLabelId"
+                android:textSize="14sp"
+                 />
+
+            <EditText
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:textSize="14sp"
+                android:id="@+id/deviceId"
+                android:layout_weight="1"
+                android:layout_width="match_parent" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="52dp"
-            android:layout_height="91dp">
+            android:layout_height="91dp"
+            android:layout_weight="1.17">
 
             <TextView
                 android:text="Save"

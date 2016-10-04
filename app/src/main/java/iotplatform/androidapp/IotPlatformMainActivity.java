@@ -52,6 +52,9 @@ public class IotPlatformMainActivity extends AppCompatActivity {
 
         final EditText deviceIdText = (EditText) findViewById(R.id.deviceId);
         String storedDeviceId = IoTUtils.readPrefference(DEVICE_ID_KEY, DEFAULT_ID_MESSAGE, this);
+        if(storedDeviceId == null || storedDeviceId.length() == 0 ){
+            storedDeviceId = DEFAULT_ID_MESSAGE;
+        }
         deviceIdText.setText(storedDeviceId);
 
         TextView saveDeviceIdText = (TextView) findViewById(R.id.saveDeviceId);
@@ -59,7 +62,12 @@ public class IotPlatformMainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                IoTUtils.writePrefference(String.valueOf(deviceIdText.getText()), DEVICE_ID_KEY, IotPlatformMainActivity.this, getApplicationContext());
+                String deviceIdString = String.valueOf(deviceIdText.getText());
+                if(deviceIdString == null || deviceIdString.equalsIgnoreCase(DEFAULT_ID_MESSAGE) || deviceIdString.isEmpty()) {
+                    IoTUtils.showInfoMessage("Please enter the ID provided by your IoT Platform provider!", getApplicationContext());
+                } else {
+                    IoTUtils.writePrefference(deviceIdString, DEVICE_ID_KEY, IotPlatformMainActivity.this, getApplicationContext());
+                }
             }
         });
 
