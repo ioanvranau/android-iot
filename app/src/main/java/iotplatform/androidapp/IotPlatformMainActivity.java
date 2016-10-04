@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -18,6 +19,8 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import iotplatform.androidapp.utils.IoTUtils;
 
 import static iotplatform.androidapp.mqtt.MqttConnection.CLIENT_ID;
 import static iotplatform.androidapp.mqtt.MqttConnection.PASSWORD;
@@ -28,6 +31,8 @@ import static iotplatform.androidapp.mqtt.MqttConnection.publishMessage;
 public class IotPlatformMainActivity extends AppCompatActivity {
 
     private static final String KEEP_TOURCH_ON_ON_CLOSE_CHECKBOX_STATE = "keepTourchOnOnCloseCheckBox";
+    public static final String DEVICE_ID_KEY = "deviceId";
+    public static final String DEFAULT_ID_MESSAGE = "Please enter your ID. You can get it from your IotPlatform provider.";
     private Camera camera;
 
     private boolean isLighOn = false;
@@ -43,6 +48,30 @@ public class IotPlatformMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_iot_platform_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        final EditText deviceIdText = (EditText) findViewById(R.id.deviceId);
+        String storedDeviceId = IoTUtils.readPrefference(DEVICE_ID_KEY, DEFAULT_ID_MESSAGE, this);
+        deviceIdText.setText(storedDeviceId);
+
+        TextView saveDeviceIdText = (TextView) findViewById(R.id.saveDeviceId);
+        saveDeviceIdText.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                IoTUtils.writePrefference(String.valueOf(deviceIdText.getText()), DEVICE_ID_KEY, IotPlatformMainActivity.this, getApplicationContext());
+            }
+        });
+
+        TextView clearDeviceIdText = (TextView) findViewById(R.id.clearDeviceId);
+
+        clearDeviceIdText.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                deviceIdText.setText("");
+            }
+        });
 
         if (camera == null) {
             camera = Camera.open();

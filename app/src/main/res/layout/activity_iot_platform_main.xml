@@ -40,10 +40,6 @@
         android:src="@android:drawable/btn_default"
         android:nestedScrollingEnabled="false" />
 
-    <include layout="@layout/content_iot_platform_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <TextView
         android:text=""
         android:layout_width="112dp"
@@ -51,5 +47,53 @@
         android:id="@+id/infoText"
         android:layout_gravity="bottom|center"
         android:textAlignment="center" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="213dp"
+        android:layout_height="130dp"
+        android:id="@+id/deviceIdLayout"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="80dp">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/deviceId"
+            android:layout_weight="1"
+            android:layout_gravity="top" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="52dp"
+            android:layout_height="91dp">
+
+            <TextView
+                android:text="Save"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:id="@+id/saveDeviceId"
+                android:autoLink="all"
+                android:textSize="18sp"
+                android:layout_gravity="top" />
+
+            <TextView
+                android:text="Clear"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:id="@+id/clearDeviceId"
+                android:autoLink="all"
+                android:textSize="18sp"
+                android:layout_gravity="top" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/content_iot_platform_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </android.support.design.widget.CoordinatorLayout>
